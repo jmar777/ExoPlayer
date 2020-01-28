@@ -352,7 +352,7 @@ public final class DashMediaSource extends BaseMediaSource {
    * MediaSourceCaller#onSourceInfoRefreshed(MediaSource, Timeline)} when the source's {@link
    * Timeline} is changing dynamically (for example, for incomplete live streams).
    */
-  private static final int NOTIFY_MANIFEST_INTERVAL_MS = 5000;
+  private static final int NOTIFY_MANIFEST_INTERVAL_MS = 100;
   /**
    * The minimum default start position for live streams, relative to the start of the live window.
    */
@@ -921,7 +921,7 @@ public final class DashMediaSource extends BaseMediaSource {
 
   private void resolveUtcTimingElementHttp(UtcTimingElement timingElement,
       ParsingLoadable.Parser<Long> parser) {
-    startLoading(new ParsingLoadable<>(dataSource, Uri.parse(timingElement.value),
+    startLoading(new ParsingLoadable<>(dataSource, Uri.parse("http://10.0.2.2:8080/time"), // Uri.parse(timingElement.value),
         C.DATA_TYPE_TIME_SYNCHRONIZATION, parser), new UtcTimestampCallback(), 1);
   }
 
@@ -1264,6 +1264,10 @@ public final class DashMediaSource extends BaseMediaSource {
           return C.TIME_UNSET;
         }
       }
+
+      return windowDefaultStartPositionUs;
+
+      /*
       // Attempt to snap to the start of the corresponding video segment.
       int periodIndex = 0;
       long defaultStartPositionInPeriodUs = offsetInFirstPeriodUs + windowDefaultStartPositionUs;
@@ -1292,6 +1296,7 @@ public final class DashMediaSource extends BaseMediaSource {
       long segmentNum = snapIndex.getSegmentNum(defaultStartPositionInPeriodUs, periodDurationUs);
       return windowDefaultStartPositionUs + snapIndex.getTimeUs(segmentNum)
           - defaultStartPositionInPeriodUs;
+      */
     }
 
     @Override

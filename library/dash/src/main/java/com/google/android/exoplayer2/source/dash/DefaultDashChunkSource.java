@@ -50,6 +50,7 @@ import com.google.android.exoplayer2.upstream.DataSpec;
 import com.google.android.exoplayer2.upstream.HttpDataSource.InvalidResponseCodeException;
 import com.google.android.exoplayer2.upstream.LoaderErrorThrower;
 import com.google.android.exoplayer2.upstream.TransferListener;
+import com.google.android.exoplayer2.util.Log;
 import com.google.android.exoplayer2.util.MimeTypes;
 import com.google.android.exoplayer2.util.Util;
 import java.io.IOException;
@@ -764,12 +765,23 @@ public class DefaultDashChunkSource implements DashChunkSource {
         // The index is itself unbounded. We need to use the current time to calculate the range of
         // available segments.
         long liveEdgeTimeUs = nowUnixTimeUs - C.msToUs(manifest.availabilityStartTimeMs);
+        liveEdgeTimeUs += 4000000;
         long periodStartUs = C.msToUs(manifest.getPeriod(periodIndex).startMs);
         long liveEdgeTimeInPeriodUs = liveEdgeTimeUs - periodStartUs;
+
+        Log.e("DefaultDashChunkSource", "livEdgeTimeUs: " + liveEdgeTimeUs + "; periodStartUs: " + periodStartUs +
+            "; liveEdgeTimeInPeriodUs: " + liveEdgeTimeInPeriodUs +
+            "; m.timeShiftBufferDepthMs: " + manifest.timeShiftBufferDepthMs +
+            "; firstSegNum: " + getFirstSegmentNum() +
+            "; segNum: " + getSegmentNum(liveEdgeTimeInPeriodUs));
+
+
         // getSegmentNum(liveEdgeTimeInPeriodUs) will not be completed yet, so subtract one to get
         // the index of the last completed segment.
-        return getSegmentNum(liveEdgeTimeInPeriodUs) - 1;
+        return getSegmentNum(liveEdgeTimeInPeriodUs); // - 1;
       }
+
+      Log.e("DefaultDashChunkSource", "availableSegmentCount was not unbounded: " + availableSegmentCount);
       return getFirstSegmentNum() + availableSegmentCount - 1;
     }
 
