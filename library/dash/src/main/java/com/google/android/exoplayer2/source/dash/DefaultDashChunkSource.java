@@ -769,11 +769,11 @@ public class DefaultDashChunkSource implements DashChunkSource {
         long periodStartUs = C.msToUs(manifest.getPeriod(periodIndex).startMs);
         long liveEdgeTimeInPeriodUs = liveEdgeTimeUs - periodStartUs;
 
-        Log.e("DefaultDashChunkSource", "livEdgeTimeUs: " + liveEdgeTimeUs + "; periodStartUs: " + periodStartUs +
+        /*Log.e("DefaultDashChunkSource", "livEdgeTimeUs: " + liveEdgeTimeUs + "; periodStartUs: " + periodStartUs +
             "; liveEdgeTimeInPeriodUs: " + liveEdgeTimeInPeriodUs +
             "; m.timeShiftBufferDepthMs: " + manifest.timeShiftBufferDepthMs +
             "; firstSegNum: " + getFirstSegmentNum() +
-            "; segNum: " + getSegmentNum(liveEdgeTimeInPeriodUs));
+            "; segNum: " + getSegmentNum(liveEdgeTimeInPeriodUs));*/
 
 
         // getSegmentNum(liveEdgeTimeInPeriodUs) will not be completed yet, so subtract one to get

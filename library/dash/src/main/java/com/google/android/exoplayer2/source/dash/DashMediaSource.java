@@ -921,7 +921,7 @@ public final class DashMediaSource extends BaseMediaSource {
 
   private void resolveUtcTimingElementHttp(UtcTimingElement timingElement,
       ParsingLoadable.Parser<Long> parser) {
-    startLoading(new ParsingLoadable<>(dataSource, Uri.parse("http://10.0.2.2:8080/time"), // Uri.parse(timingElement.value),
+    startLoading(new ParsingLoadable<>(dataSource, Uri.parse(timingElement.value), // Uri.parse("http://10.0.2.2:8080/time"),
         C.DATA_TYPE_TIME_SYNCHRONIZATION, parser), new UtcTimestampCallback(), 1);
   }
 
